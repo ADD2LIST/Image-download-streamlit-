@@ -26,13 +26,19 @@ def main():
 
                 response = requests.get(url)
 
-                image = Image.open(BytesIO(response.content))
+                if response.status_code == 200:
 
-                st.image(image, caption='Downloaded Image', use_column_width=True)
+                    image = Image.open(BytesIO(response.content))
 
-                save_image(response.content)
+                    st.image(image, caption='Downloaded Image', use_column_width=True)
 
-                st.success("Image downloaded successfully!")
+                    save_image(response.content)
+
+                    st.success("Image downloaded successfully!")
+
+                else:
+
+                    st.error("Error downloading the image. Please check the URL.")
 
             except Exception as e:
 
@@ -51,4 +57,3 @@ def save_image(image_content):
 if __name__ == "__main__":
 
     main()
-
